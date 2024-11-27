@@ -6,36 +6,32 @@ var isValid = function (s) {
   };
 
   var chars = s.split("");
+  var isValidString = true;
 
   if (chars.length % 2 !== 0) {
     return false;
   }
 
-  var isValid = true;
-  var listSize = chars.length;
+  var index = 0;
 
-  for (let i = 0; i < listSize; i++) {
-    var char = chars[i];
-    var nextChar = chars[i + 1];
-    var dictValue = validStrings[char];
+  while (isValidString) {
+    var char = chars[index];
+    var nextChar = chars[index + 1];
+    var objValue = validStrings[char];
 
-    var charFromReverse = chars[s.length - (i + 1)];
+    if (!nextChar) {
+      isValidString = false;
+    }
 
-    if (nextChar == dictValue) {
-      i++;
+    if (nextChar == objValue) {
+      chars.splice(index, 2);
+      index = 0;
       continue;
     }
 
-    if (dictValue == charFromReverse) {
-      listSize--;
-      continue;
-    }
-
-    if (!(nextChar == dictValue)) {
-      isValid = false;
-    }
+    index++;
   }
-  return isValid;
+  return chars.length == 0 ? true : false;
 };
 
 // Ou o match é o próximo caracter  ou é o mesmo indice de trás pra frente do array.
@@ -47,4 +43,4 @@ var isValid = function (s) {
 // "([])"
 // "(([]){})"
 
-console.log(isValid("()"));
+console.log(isValid("(([]){})"));
